@@ -1,7 +1,7 @@
 import { json } from "body-parser";
 import express, { Request, Response } from "express";
 import mongoose from "mongoose";
-import { mobileRouter } from "./routes/MobileAppController";
+import { mobileRouter } from "./routers/MobileAppController";
 
 const app = express();
 
