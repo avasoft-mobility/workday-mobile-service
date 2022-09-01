@@ -5,7 +5,19 @@ import MobileVersionDb from "../schema/MobileVersionSchema";
 const router = express.Router();
 
 router.get("/check", (req, res) => {
-  return res.send("Mobile service is working fine");
+  return res.send({ message: "Mobile Service is working fine" });
+});
+
+router.get("/todos", (req, res) => {
+  return res.send({ message: "Todo Service is working fine" });
+});
+
+router.get("/attendance", (req, res) => {
+  return res.send({ message: "Attendance Service is working fine" });
+});
+
+router.get("/users", (req, res) => {
+  return res.send({ message: "Users Service is working fine" });
 });
 
 router.get("/versions", async (req: Request, res: Response) => {
