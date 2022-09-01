@@ -3,15 +3,15 @@ import MobileVersionModel from "../models/mobileversionmodel";
 
 const mobileVersionSchema = new mongoose.Schema(
   {
-    isRequired: {
+    isrequired: {
       type: Boolean,
       required: true,
     },
-    appId: {
+    appid: {
       type: String,
       required: true,
     },
-    latestVersion: {
+    latestversion: {
       type: String,
       required: true,
     },

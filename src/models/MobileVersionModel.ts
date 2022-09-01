@@ -1,8 +1,8 @@
 interface MobileVersionModel {
   _id?: string;
-  isRequired: boolean;
-  appId: string;
-  latestVersion: string;
+  isrequired: boolean;
+  appid: string;
+  latestversion: string;
   __v?: number;
 }
 

@@ -7,7 +7,7 @@ const router = express.Router();
 router.get("/versions", async (req: Request, res: Response) => {
   try {
     const mobileVersion = await MobileVersionDb.findOne({
-      appId: req.query["appId"],
+      appid: req.query["appId"],
     });
 
     if (!mobileVersion) {
