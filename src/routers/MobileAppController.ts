@@ -4,9 +4,11 @@ import MobileVersionDb from "../schema/MobileVersionSchema";
 
 const router = express.Router();
 
-router.get("/versions", (req: Request, res: Response) => {
+router.get("/versions", async (req: Request, res: Response) => {
   try {
-    getLatestAppVersion(req.query["appId"] as string)
+    await MobileVersionDb.findOne({
+      appId: req.query["appId"],
+    })
       .then((mobileVersion) => {
         return res.status(200).json({ data: mobileVersion });
       })
@@ -20,12 +22,5 @@ router.get("/versions", (req: Request, res: Response) => {
       .json({ message: (error as unknown as Error).message });
   }
 });
-
-const getLatestAppVersion = async (appId: string) => {
-  var queryResult = await MobileVersionDb.findOne({
-    appId: appId,
-  });
-  return queryResult;
-};
 
 export { router as mobileRouter };
