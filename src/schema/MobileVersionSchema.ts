@@ -15,8 +15,16 @@ const mobileVersionSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-  },
-  { timestamps: true }
+    createdAt: {
+      type: Date,
+      default: () => Date.now(),
+      immutable: true,
+    },
+    updatedAt: {
+      type: Date,
+      default: () => Date.now(),
+    },
+  }
 );
 
 export default mongoose.model<MobileVersionModel>(

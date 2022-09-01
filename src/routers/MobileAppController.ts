@@ -6,15 +6,17 @@ const router = express.Router();
 
 router.get("/versions", async (req: Request, res: Response) => {
   try {
-    await MobileVersionDb.findOne({
+    const mobileVersion = await MobileVersionDb.findOne({
       appId: req.query["appId"],
-    })
-      .then((mobileVersion) => {
-        return res.status(200).json({ data: mobileVersion });
-      })
-      .catch((error) => {
-        return res.status(500).json({ message: error });
-      });
+    });
+
+    if (!mobileVersion) {
+      return res
+        .status(404)
+        .json({ message: "No result available for this app ID" });
+    }
+
+    return res.status(200).json({ data: mobileVersion });
   } catch (error) {
     Rollbar.error(error as unknown as Error, req);
     return res
