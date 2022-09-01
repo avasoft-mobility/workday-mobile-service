@@ -10,7 +10,7 @@ router.get("/versions", async (req: Request, res: Response) => {
       appid: req.query["appId"],
     });
 
-    if (!mobileVersion) {
+    if (mobileVersion===null) {
       return res
         .status(404)
         .json({ message: "No result available for this app ID" });
