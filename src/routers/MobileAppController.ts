@@ -1,8 +1,12 @@
 import express, { Request, Response } from "express";
-import { Rollbar } from "../helpers/Rollbar";
+import { Rollbar } from "../helpers/RollBar";
 import MobileVersionDb from "../schema/MobileVersionSchema";
 
 const router = express.Router();
+
+router.get("/check", (req, res) => {
+  return res.send("Mobile service is working fine");
+});
 
 router.get("/versions", async (req: Request, res: Response) => {
   try {
@@ -10,7 +14,7 @@ router.get("/versions", async (req: Request, res: Response) => {
       appid: req.query["appId"],
     });
 
-    if (mobileVersion===null) {
+    if (mobileVersion === null) {
       return res
         .status(404)
         .json({ message: "No result available for this app ID" });
