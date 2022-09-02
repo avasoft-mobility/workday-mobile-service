@@ -20,7 +20,7 @@ router.get("/users", (req, res) => {
   return res.send({ message: "Users Service is working fine" });
 });
 
-router.post("/versions", (req: Request, res: Response) => {
+router.post("/versions", async (req: Request, res: Response) => {
   try {
     
     if (!req.query["appId"] || req.query["appId"] === "") {
@@ -37,17 +37,33 @@ router.post("/versions", (req: Request, res: Response) => {
         .json({ message: "parameter 'isrequired' must be passed" });
     }
     const appid = req.query["appId"].toString();
-    updateMobileVerison(
+
+    const Updatedversion = await updateMobileVerison(
       appid,
       req.body["latestversion"].toString(),
       req.body["isrequired"] as boolean
-    )
-      .then((mobileversion) => {
-        return res.status(200).json({ data: mobileversion });
-      })
-      .catch((error) => {
-        return res.status(500).json({ message: error });
-      });
+    );
+
+    if(!Updatedversion)
+    {
+      return res
+      .status(404)
+      .json({ message: "No creation or updation happend" });
+    }
+
+    return res.status(200).json({ data: Updatedversion });
+
+    // updateMobileVerison(
+    //   appid,
+    //   req.body["latestversion"].toString(),
+    //   req.body["isrequired"] as boolean
+    // )
+    //   .then((mobileversion) => {
+    //     return res.status(200).json({ data: mobileversion });
+    //   })
+    //   .catch((error) => {
+    //     return res.status(500).json({ message: error });
+    //   });
   } catch (error) {
     Rollbar.error(error as unknown as Error, req);
     return res
