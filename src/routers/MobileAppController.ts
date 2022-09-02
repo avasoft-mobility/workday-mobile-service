@@ -52,18 +52,6 @@ router.post("/versions", async (req: Request, res: Response) => {
     }
 
     return res.status(200).json({ data: Updatedversion });
-
-    // updateMobileVerison(
-    //   appid,
-    //   req.body["latestversion"].toString(),
-    //   req.body["isrequired"] as boolean
-    // )
-    //   .then((mobileversion) => {
-    //     return res.status(200).json({ data: mobileversion });
-    //   })
-    //   .catch((error) => {
-    //     return res.status(500).json({ message: error });
-    //   });
   } catch (error) {
     Rollbar.error(error as unknown as Error, req);
     return res
