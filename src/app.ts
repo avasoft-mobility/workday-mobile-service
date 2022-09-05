@@ -34,7 +34,7 @@ app.use(
   }
 );
 
-mongoose.connect("mongodb://localhost:27017", () => {
+mongoose.connect(process.env.DB_STRING!, () => {
   console.log("DB is connected");
 });
 
