@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import LambdaClient from "../helpers/LambdaClient";
 import { Rollbar } from "../helpers/RollBar";
 import MobileVersionDb from "../schema/MobileVersionSchema";
 
@@ -16,13 +17,14 @@ router.get("/attendance", (req, res) => {
   return res.send({ message: "Attendance Service is working fine" });
 });
 
-router.get("/users", (req, res) => {
-  return res.send({ message: "Users Service is working fine" });
+router.get("/users", async (req, res) => {
+  const lambdaClient = new LambdaClient("Users");
+  const response = await lambdaClient.get("/users/mobile");
+  return res.send(response);
 });
 
 router.post("/versions", async (req: Request, res: Response) => {
   try {
-    
     if (!req.query["appId"] || req.query["appId"] === "") {
       return res.status(401).json({ message: "app id is required." });
     }
@@ -44,11 +46,10 @@ router.post("/versions", async (req: Request, res: Response) => {
       req.body["isrequired"] as boolean
     );
 
-    if(!Updatedversion)
-    {
+    if (!Updatedversion) {
       return res
-      .status(404)
-      .json({ message: "No creation or updation happend" });
+        .status(404)
+        .json({ message: "No creation or updation happend" });
     }
 
     return res.status(200).json({ data: Updatedversion });
@@ -60,14 +61,13 @@ router.post("/versions", async (req: Request, res: Response) => {
   }
 });
 
-
 router.get("/versions", async (req: Request, res: Response) => {
   try {
     const mobileVersion = await MobileVersionDb.findOne({
       appid: req.query["appId"],
     });
 
-    if (mobileVersion===null) {
+    if (mobileVersion === null) {
       return res
         .status(404)
         .json({ message: "No result available for this app ID" });
