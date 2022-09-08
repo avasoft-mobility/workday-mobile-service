@@ -16,8 +16,9 @@ app.get("/", (request: Request, response: Response) => {
 
 app.use("/mobile", mobileRouter);
 
+const functionNames = JSON.parse(process.env.LAMBDA_FUNCTION_NAMES!);
 app.use(
-  "/mobile/*/functions/MobileFunction/invocations",
+  `/mobile/*/functions/${functionNames.MOBILE}/invocations`,
   (req: Request, res: Response) => {
     const payload = JSON.parse(Buffer.from(req.body).toString());
     (app as any).runMiddleware(
